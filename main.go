@@ -1,21 +1,21 @@
 package main
 
 import (
-	"log/slog"
-	"net/http"
-	"os"
-
-	"github.com/labstack/echo/v4"
+	"3-good-things/controller"
+	"3-good-things/db"
+	"3-good-things/repository"
+	"3-good-things/repository/usecase"
+	"3-good-things/routes"
 )
 
 func main() {
-	log := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	log.Info("テストログ")
-	e := echo.New()
+	db := db.NewDB()
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "テスト")
-	})
+	GoodThingsRepository := repository.NewGoodThingsRepository(db)
+	GoodThingsUsecase := usecase.NewGoodThingsUsecase(GoodThingsRepository)
+	GoodThingsController := controller.NewGoodThingsController(GoodThingsUsecase)
+
+	e := routes.NewGoodThingsRoutes(GoodThingsController)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
