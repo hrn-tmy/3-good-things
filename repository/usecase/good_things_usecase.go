@@ -7,7 +7,7 @@ import (
 
 type IGoodThingsUsecase interface {
 	GetGoodThings() ([]models.GoodThingsResponse, error)
-	GetGoodThingById(id int) (models.GoodThings, error)
+	GetGoodThingById(id int) (models.GoodThingsResponse, error)
 	CreatedGoodThing(goodThing models.GoodThings) (models.GoodThingsResponse, error)
 	UpdateGoodThing(goodThing models.GoodThings, id int) (models.GoodThingsResponse, error)
 	DeleteGoodThing(id int) error
