@@ -3,6 +3,7 @@ package controller
 import (
 	"3-good-things/models"
 	"3-good-things/usecase"
+	"3-good-things/validation"
 	"net/http"
 	"strconv"
 
@@ -52,10 +53,15 @@ func (gtc *GoodThingsController) CreatedGoodThing(ctx echo.Context) error {
 	if err := ctx.Bind(&goodThing); err != nil {
 		return ctx.JSON(http.StatusBadRequest, err)
 	}
+	vError := validation.ValidateStruct(goodThing)
+	if vError != nil {
+		return ctx.JSON(http.StatusBadRequest, vError)
+	}
 	res, err := gtc.gtu.CreatedGoodThing(goodThing)
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, err)
+		return ctx.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create good thing"})
 	}
+
 	return ctx.JSON(http.StatusOK, res)
 }
 
@@ -64,6 +70,10 @@ func (gtc *GoodThingsController) UpdateGoodThing(ctx echo.Context) error {
 	goodThing := models.GoodThings{}
 	if err := ctx.Bind(&goodThing); err != nil {
 		return ctx.JSON(http.StatusBadRequest, err)
+	}
+	vError := validation.ValidateStruct(goodThing)
+	if vError != nil {
+		return ctx.JSON(http.StatusBadRequest, vError)
 	}
 	strId := ctx.Param("id")
 	id, _ := strconv.Atoi(strId)

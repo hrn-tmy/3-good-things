@@ -4,8 +4,8 @@ import (
 	"3-good-things/controller"
 	"3-good-things/db"
 	"3-good-things/repository"
-	"3-good-things/usecase"
 	"3-good-things/routes"
+	"3-good-things/usecase"
 )
 
 func main() {
