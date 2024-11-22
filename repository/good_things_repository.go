@@ -7,7 +7,7 @@ import (
 )
 
 type IGoodThingsRepository interface {
-	GetGoodThings(goodThings []*models.GoodThings) error
+	GetGoodThings(goodThings *[]models.GoodThings) error
 	GetGoodThingById(goodThing *models.GoodThings, id int) error
 	CreatedGoodThing(goodThing *models.GoodThings) error
 	UpdateGoodThing(goodThing *models.GoodThings, id int) error
@@ -23,7 +23,7 @@ func NewGoodThingsRepository(db *gorm.DB) IGoodThingsRepository {
 }
 
 // 一覧取得リポジトリ
-func (gtr *GoodThingsRepository) GetGoodThings(goodThings []*models.GoodThings) error {
+func (gtr *GoodThingsRepository) GetGoodThings(goodThings *[]models.GoodThings) error {
 	if err := gtr.db.Order("id DESC").Find(&goodThings).Error; err != nil {
 		return err
 	}
@@ -48,7 +48,7 @@ func (gtr *GoodThingsRepository) CreatedGoodThing(goodThing *models.GoodThings) 
 
 // 更新リポジトリ
 func (gtr *GoodThingsRepository) UpdateGoodThing(goodThing *models.GoodThings, id int) error {
-	if err:= gtr.db.Model(&goodThing).Where("id=?", id).Save(&goodThing).Error; err != nil {
+	if err := gtr.db.Model(&goodThing).Where("id=?", id).Save(&goodThing).Error; err != nil {
 		return err
 	}
 	return nil
