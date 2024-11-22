@@ -2,7 +2,7 @@ package controller
 
 import (
 	"3-good-things/models"
-	"3-good-things/repository/usecase"
+	"3-good-things/usecase"
 	"net/http"
 	"strconv"
 
@@ -82,5 +82,5 @@ func (gtc *GoodThingsController) DeleteGoodThing(ctx echo.Context) error {
 	if err := gtc.gtu.DeleteGoodThing(id); err != nil {
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
-	return ctx.NoContent(http.StatusOK)
+	return ctx.NoContent(http.StatusNoContent)
 }

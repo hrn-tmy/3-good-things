@@ -48,7 +48,7 @@ func (gtr *GoodThingsRepository) CreatedGoodThing(goodThing *models.GoodThings) 
 
 // 更新リポジトリ
 func (gtr *GoodThingsRepository) UpdateGoodThing(goodThing *models.GoodThings, id int) error {
-	if err := gtr.db.Model(&goodThing).Where("id=?", id).Save(&goodThing).Error; err != nil {
+	if err := gtr.db.Model(&goodThing).Where("id=?", id).Updates(goodThing).Error; err != nil {
 		return err
 	}
 	return nil
