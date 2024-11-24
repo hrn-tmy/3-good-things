@@ -3,7 +3,6 @@ package usecase
 import (
 	"3-good-things/models"
 	"3-good-things/repository"
-	"fmt"
 )
 
 type IGoodThingsUsecase interface {
@@ -109,7 +108,6 @@ func (gtu *GoodThingsUsecase) UpdateGoodThing(goodThing models.GoodThings, id in
 		SecondLearntThing: goodThing.SecondLearntThing,
 		ThirdLearntThing:  goodThing.ThirdLearntThing,
 	}
-	fmt.Println(res)
 	return res, nil
 }
 
