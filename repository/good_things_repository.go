@@ -2,6 +2,8 @@ package repository
 
 import (
 	"3-good-things/models"
+	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -33,6 +35,9 @@ func (gtr *GoodThingsRepository) GetGoodThings(goodThings *[]models.GoodThings) 
 // 詳細取得リポジトリ
 func (gtr *GoodThingsRepository) GetGoodThingById(goodThing *models.GoodThings, id int) error {
 	if err := gtr.db.Where("id=?", id).First(&goodThing, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return fmt.Errorf("レコードが存在しません")
+		}
 		return err
 	}
 	return nil
@@ -48,16 +53,24 @@ func (gtr *GoodThingsRepository) CreatedGoodThing(goodThing *models.GoodThings) 
 
 // 更新リポジトリ
 func (gtr *GoodThingsRepository) UpdateGoodThing(goodThing *models.GoodThings, id int) error {
-	if err := gtr.db.Model(&goodThing).Where("id=?", id).Updates(goodThing).Error; err != nil {
-		return err
+	result := gtr.db.Model(&goodThing).Where("id=?",id).Updates(goodThing)
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("レコードが存在しません")
+	}
+	if result.Error != nil {
+		return result.Error
 	}
 	return nil
 }
 
 // 削除リポジトリ
 func (gtr *GoodThingsRepository) DeleteGoodThing(id int) error {
-	if err := gtr.db.Where("id=?", id).Delete(&models.GoodThings{}).Error; err != nil {
-		return err
+	result := gtr.db.Where("id=?", id).Delete(&models.GoodThings{})
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("レコードが存在しません")
+	}
+	if result.Error != nil {
+		return result.Error
 	}
 	return nil
 }
