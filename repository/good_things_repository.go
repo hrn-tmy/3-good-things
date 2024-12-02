@@ -53,7 +53,7 @@ func (gtr *GoodThingsRepository) CreatedGoodThing(goodThing *models.GoodThings) 
 
 // 更新リポジトリ
 func (gtr *GoodThingsRepository) UpdateGoodThing(goodThing *models.GoodThings, id int) error {
-	result := gtr.db.Model(&goodThing).Where("id=?",id).Updates(goodThing)
+	result := gtr.db.Model(&goodThing).Where("id=?", id).Updates(goodThing)
 	if result.RowsAffected == 0 {
 		return fmt.Errorf("レコードが存在しません")
 	}

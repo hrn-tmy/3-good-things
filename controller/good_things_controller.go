@@ -46,9 +46,9 @@ func (gtc *GoodThingsController) GetGoodThingById(ctx echo.Context) error {
 	res, err := gtc.gtu.GetGoodThingById(id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return ctx.JSON(http.StatusNotFound, map[string]string{"errors":err.Error()})	
+			return ctx.JSON(http.StatusNotFound, map[string]string{"errors": err.Error()})
 		}
-		return ctx.JSON(http.StatusInternalServerError, map[string]string{"errors":err.Error()})
+		return ctx.JSON(http.StatusInternalServerError, map[string]string{"errors": err.Error()})
 	}
 	return ctx.JSON(http.StatusOK, res)
 }
@@ -86,7 +86,7 @@ func (gtc *GoodThingsController) UpdateGoodThing(ctx echo.Context) error {
 	res, err := gtc.gtu.UpdateGoodThing(goodThing, id)
 	if err != nil {
 		if strings.Contains(err.Error(), "レコードが存在しません") {
-			return ctx.JSON(http.StatusNotFound, map[string]string{"errors":err.Error()})
+			return ctx.JSON(http.StatusNotFound, map[string]string{"errors": err.Error()})
 		}
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
@@ -101,7 +101,7 @@ func (gtc *GoodThingsController) DeleteGoodThing(ctx echo.Context) error {
 	err := gtc.gtu.DeleteGoodThing(id)
 	if err != nil {
 		if strings.Contains(err.Error(), "レコードが存在しません") {
-			return ctx.JSON(http.StatusNotFound, map[string]string{"errors":err.Error()})
+			return ctx.JSON(http.StatusNotFound, map[string]string{"errors": err.Error()})
 		}
 		return ctx.JSON(http.StatusInternalServerError, err)
 	}
